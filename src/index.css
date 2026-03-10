@@ -5,12 +5,12 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
   
-  --color-brand-400: #33FF85;
-  --color-brand-500: #00FF66;
-  --color-brand-600: #00CC52;
-  --color-dark-900: #0A0A0A;
-  --color-dark-800: #141414;
-  --color-dark-700: #1F1F1F;
+  --color-brand-400: #60A5FA;
+  --color-brand-500: #3B82F6;
+  --color-brand-600: #2563EB;
+  --color-dark-900: #020617;
+  --color-dark-800: #0F172A;
+  --color-dark-700: #1E293B;
 }
 
 body {

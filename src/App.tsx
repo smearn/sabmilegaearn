@@ -19,14 +19,12 @@ const Button = ({ children, onClick, variant = 'primary', className = '', icon: 
 
 export default function App() {
   const handleDownload = () => {
-    // Simulate APK download
-    const link = document.createElement("a");
-    link.href = "#"; // In a real app, this would be the actual APK URL
-    link.download = "sm_earn.apk";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    alert("Downloading SM EARN...");
+    // Open Google Drive download link
+    window.open("https://drive.google.com/uc?export=download&id=1zSSYeK8JY4GQOMhnEuZ0odb0bSiC164w", "_blank");
+  };
+
+  const handleVisitSite = () => {
+    window.open("https://sabmilega.vercel.app", "_blank");
   };
 
   return (
@@ -40,9 +38,14 @@ export default function App() {
             </div>
             <span className="font-display font-bold text-2xl tracking-tight">SM EARN</span>
           </div>
-          <Button onClick={handleDownload} icon={Download} className="hidden sm:flex">
-            DOWNLOAD
-          </Button>
+          <div className="flex items-center gap-4">
+            <a href="https://sabmilega.vercel.app" target="_blank" rel="noopener noreferrer" className="hidden sm:block text-sm font-medium text-gray-300 hover:text-white transition-colors">
+              Visit Site
+            </a>
+            <Button onClick={handleVisitSite} className="hidden sm:flex">
+              Sign In
+            </Button>
+          </div>
         </div>
       </nav>
 
@@ -75,12 +78,17 @@ export default function App() {
               
               <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
                 <Button onClick={handleDownload} icon={Download} className="w-full sm:w-auto text-lg px-8 py-4">
-                  DOWNLOAD
+                  DOWNLOAD (17 MB)
                 </Button>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <ShieldCheck className="w-4 h-4 text-brand-500" />
-                  <span>100% Safe & Secure</span>
-                </div>
+                <a href="https://sabmilega.vercel.app" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                  <Button variant="secondary" className="w-full text-lg px-8 py-4">
+                    Visit Site
+                  </Button>
+                </a>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-500 mt-6 justify-center lg:justify-start">
+                <ShieldCheck className="w-4 h-4 text-brand-500" />
+                <span>100% Safe & Secure</span>
               </div>
             </motion.div>
 
@@ -113,8 +121,8 @@ export default function App() {
                     </div>
                     <div className="space-y-3">
                       {[
-                        { name: "Free Fire CS - 1vs1", prize: "₹500", icon: Swords },
-                        { name: "Free Fire BR - Squad", prize: "₹2000", icon: Users },
+                        { name: "Free Fire Clash Squad", prize: "₹500", icon: Swords },
+                        { name: "Free Fire Battle Royale", prize: "₹2000", icon: Users },
                         { name: "Bingo Special", prize: "₹1000", icon: Target }
                       ].map((match, i) => (
                         <div key={i} className="bg-dark-700 p-3 rounded-xl flex items-center justify-between">
@@ -169,39 +177,33 @@ export default function App() {
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {/* Free Fire Card */}
-            <div className="group relative rounded-3xl overflow-hidden border border-white/10 aspect-[4/5]">
+            <div className="group relative rounded-3xl overflow-hidden border border-white/10 aspect-[4/5] shadow-[0_0_30px_rgba(59,130,246,0.1)]">
               <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80" alt="Free Fire" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" />
               <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/60 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h3 className="font-display text-3xl font-bold mb-2">Free Fire</h3>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="text-xs font-bold bg-brand-500/20 text-brand-500 px-2 py-1 rounded">1vs1</span>
-                  <span className="text-xs font-bold bg-brand-500/20 text-brand-500 px-2 py-1 rounded">Duo</span>
-                  <span className="text-xs font-bold bg-brand-500/20 text-brand-500 px-2 py-1 rounded">Squad</span>
-                  <span className="text-xs font-bold bg-brand-500/20 text-brand-500 px-2 py-1 rounded">CS</span>
-                  <span className="text-xs font-bold bg-brand-500/20 text-brand-500 px-2 py-1 rounded">BR</span>
-                </div>
-                <Button className="w-full" variant="primary">Play Now</Button>
+                <h3 className="font-display text-4xl font-black mb-2 tracking-wide text-white drop-shadow-lg">FREE FIRE</h3>
+                <p className="text-gray-200 text-sm mb-6 font-medium drop-shadow">Experience the ultimate survival shooter. Compete in high-stakes matches and prove your skills.</p>
+                <Button onClick={handleVisitSite} className="w-full" variant="primary">Play Now</Button>
               </div>
             </div>
             {/* Bingo Card */}
-            <div className="group relative rounded-3xl overflow-hidden border border-white/10 aspect-[4/5]">
+            <div className="group relative rounded-3xl overflow-hidden border border-white/10 aspect-[4/5] shadow-[0_0_30px_rgba(59,130,246,0.1)]">
               <img src="https://images.unsplash.com/photo-1606167668584-78701c57f13d?auto=format&fit=crop&q=80" alt="Bingo" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" />
               <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/60 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h3 className="font-display text-3xl font-bold mb-2">Bingo</h3>
-                <p className="text-gray-300 text-sm mb-4">Classic multiplayer Bingo with real cash prizes.</p>
-                <Button className="w-full" variant="secondary">Play Now</Button>
+                <h3 className="font-display text-4xl font-black mb-2 tracking-wide text-white drop-shadow-lg">BINGO</h3>
+                <p className="text-gray-200 text-sm mb-6 font-medium drop-shadow">Classic multiplayer Bingo with a modern twist. Win real cash prizes daily.</p>
+                <Button onClick={handleVisitSite} className="w-full" variant="secondary">Play Now</Button>
               </div>
             </div>
             {/* Tic Tac Toe Card */}
-            <div className="group relative rounded-3xl overflow-hidden border border-white/10 aspect-[4/5]">
+            <div className="group relative rounded-3xl overflow-hidden border border-white/10 aspect-[4/5] shadow-[0_0_30px_rgba(59,130,246,0.1)]">
               <img src="https://images.unsplash.com/photo-1611996575749-79a3a250f563?auto=format&fit=crop&q=80" alt="Tic Tac Toe" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" />
               <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/60 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h3 className="font-display text-3xl font-bold mb-2">Tic Tac Toe</h3>
-                <p className="text-gray-300 text-sm mb-4">Quick 1v1 matches. Outsmart your opponent.</p>
-                <Button className="w-full" variant="secondary">Play Now</Button>
+                <h3 className="font-display text-4xl font-black mb-2 tracking-wide text-white drop-shadow-lg">TIC TAC TOE</h3>
+                <p className="text-gray-200 text-sm mb-6 font-medium drop-shadow">Quick 1v1 matches. Outsmart your opponent in this timeless classic.</p>
+                <Button onClick={handleVisitSite} className="w-full" variant="secondary">Play Now</Button>
               </div>
             </div>
           </div>
@@ -277,10 +279,15 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-10">
+                <div className="mt-10 flex flex-col sm:flex-row gap-4">
                   <Button onClick={handleDownload} icon={Download} className="w-full sm:w-auto">
-                    DOWNLOAD NOW
+                    DOWNLOAD NOW (17 MB)
                   </Button>
+                  <a href="https://sabmilega.vercel.app" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                    <Button variant="secondary" className="w-full">
+                      Visit Site
+                    </Button>
+                  </a>
                 </div>
               </div>
               
@@ -292,7 +299,7 @@ export default function App() {
                     </div>
                     <div>
                       <h3 className="font-bold text-xl">SM EARN App</h3>
-                      <p className="text-sm text-gray-400">Version 2.4.1 • 24 MB</p>
+                      <p className="text-sm text-gray-400">Version 2.4.1 • 17 MB</p>
                     </div>
                   </div>
                   <div className="space-y-4">
@@ -329,6 +336,7 @@ export default function App() {
             © {new Date().getFullYear()} SM EARN Tournaments. All rights reserved.
           </p>
           <div className="flex items-center gap-6 text-sm text-gray-400">
+            <a href="https://sabmilega.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Visit Site</a>
             <a href="#" className="hover:text-white transition-colors">Terms</a>
             <a href="#" className="hover:text-white transition-colors">Privacy</a>
             <a href="#" className="hover:text-white transition-colors">Support</a>
