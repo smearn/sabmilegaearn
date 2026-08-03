@@ -1,5 +1,14 @@
 import { motion } from "motion/react";
-import { Download, Gamepad2, Trophy, ShieldCheck, Zap, ChevronRight, Star, CheckCircle2, Smartphone, Flag, Swords, Users, Target } from "lucide-react";
+import { Download, Gamepad2, Trophy, ShieldCheck, Zap, ChevronRight, Star, CheckCircle2, Smartphone, Flag, Swords, Users, Target, Phone } from "lucide-react";
+import { useState, useEffect } from "react";
+import { db } from "./firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+
+declare global {
+  interface Window {
+    MojoAuth: any;
+  }
+}
 
 // Reusable Button Component to ensure consistency across the app
 const Button = ({ children, onClick, variant = 'primary', className = '', icon: Icon }: any) => {
@@ -18,6 +27,39 @@ const Button = ({ children, onClick, variant = 'primary', className = '', icon: 
 };
 
 export default function App() {
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const apiKey = import.meta.env.VITE_MOJOAUTH_API_KEY;
+    if (!apiKey) return;
+
+    const mojoauth = new window.MojoAuth(apiKey, {
+      source: [{ type: "phone", feature: "otp" }],
+      container: "mojoauth-passwordless-form",
+      redirect_url: window.location.origin,
+    });
+
+    mojoauth.signIn().then(async (response: any) => {
+      if (response.authenticated) {
+        setUser(response.user);
+        setLoading(true);
+        try {
+          await addDoc(collection(db, "phone"), {
+            phoneNumber: response.user.identifier,
+            uid: response.user.user_id,
+            createdAt: serverTimestamp(),
+          });
+          alert("Phone number stored in Firebase!");
+        } catch (error) {
+          console.error("Error storing phone number:", error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    });
+  }, []);
+
   const handleDownload = () => {
     // Open Google Drive download link
     window.open("https://drive.google.com/uc?export=download&id=1zSSYeK8JY4GQOMhnEuZ0odb0bSiC164w", "_blank");
@@ -319,6 +361,41 @@ export default function App() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Phone Signup Section */}
+      <section className="py-24 bg-brand-500/5 border-y border-brand-500/10">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4">Try Phone Signup</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">Experience our new passwordless phone authentication powered by MojoAuth.</p>
+          </div>
+          
+          <div className="max-w-md mx-auto bg-dark-800 p-8 rounded-[2rem] border border-white/10 shadow-2xl">
+            {user ? (
+              <div className="text-center space-y-4">
+                <div className="w-20 h-20 bg-brand-500/20 rounded-full flex items-center justify-center mx-auto">
+                  <CheckCircle2 className="w-10 h-10 text-brand-500" />
+                </div>
+                <h3 className="text-2xl font-bold">Welcome!</h3>
+                <p className="text-gray-400">You are signed in as:</p>
+                <div className="bg-dark-900 p-4 rounded-xl font-mono text-brand-500 border border-brand-500/20">
+                  {user.identifier}
+                </div>
+                <Button onClick={() => window.location.reload()} variant="secondary" className="w-full">
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <div id="mojoauth-passwordless-form"></div>
+            )}
+            {loading && (
+              <div className="mt-4 text-center text-brand-500 animate-pulse">
+                Storing data in Firebase...
+              </div>
+            )}
           </div>
         </div>
       </section>
